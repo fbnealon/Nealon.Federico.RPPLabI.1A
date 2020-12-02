@@ -589,9 +589,9 @@ float informe_promedioTiempoReal(eAlquiler alquileres[], int tamAlquileres)
     {
         for(i=0; i<tamAlquileres; i++)
         {
-            if(alquileres[i].isEmpty==1)
+            if(alquileres[i].isEmpty==1 && alquileres[i].estado==FINALIZADO)
             {
-                totalTiempo+= alquileres[i].tiempoReal;
+                totalTiempo= totalTiempo + alquileres[i].tiempoReal;
                 cont++;
             }
         }
