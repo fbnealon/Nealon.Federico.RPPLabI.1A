@@ -69,14 +69,19 @@ int main()
             }
             break;
         case 4:
-
             if(alquiler_nuevo(alquileres, TAM_ALQUILERES, clientes, TAM_CLIENTES, operadores, TAM_OPERADORES)==1)
             {
                 proximoIDAlquiler++;
             }
             break;
         case 5:
-            alquiler_mostrarTodos(alquileres, TAM_ALQUILERES);
+            for(int i=0; i<TAM_ALQUILERES; i++)
+            {
+                if(alquileres[i].estado!=FINALIZADO && alquileres[i].isEmpty==1)
+                {
+                    alquiler_mostrarUno(alquileres[i]);
+                }
+            }
             auxIDAlquiler= getInt("Ingrese id de alquiler a finalizar: ", "ERROR, intente de nuevo: ", 2000, 2999);
             alquiler_fin(alquileres, TAM_ALQUILERES, clientes, TAM_CLIENTES, auxIDAlquiler);
             break;
