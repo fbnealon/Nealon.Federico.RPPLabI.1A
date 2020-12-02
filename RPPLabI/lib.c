@@ -470,7 +470,7 @@ int informes_informar(eAlquiler alquileres[], int tamAlquileres, eCliente client
                 informe_equiposMasAlquilados(alquileres, tamAlquileres);
                 break;
             case 3:
-                informe_promedioTiempoReal(alquileres, tamAlquileres);
+                printf("El tiempo promedio real del alquiler de equipos es %d\n\n", informe_promedioTiempoReal(alquileres, tamAlquileres));
                 break;
             case 4:
                 informe_clientesConAlquileres(clientes, tamClientes, alquileres, tamAlquileres);
@@ -583,14 +583,18 @@ int informe_equiposMasAlquilados(eAlquiler alquileres[], int tamAlquileres)
 
 int informe_promedioTiempoReal(eAlquiler alquileres[], int tamAlquileres)
 {
-    int i=0, totalTiempo=0, promedio;
+    int i=0, totalTiempo=0, promedio, cont=0;
     if(alquileres!=NULL && tamAlquileres>0)
     {
         for(i=0; i<tamAlquileres; i++)
         {
-            totalTiempo+= alquileres[i].tiempoReal;
+            if(alquileres[i].isEmpty==1)
+            {
+                totalTiempo+= alquileres[i].tiempoReal;
+                cont++;
+            }
         }
-        promedio= totalTiempo/i;
+        promedio= totalTiempo/cont;
     }
     return promedio;
 }
@@ -606,11 +610,13 @@ int informe_clientesConAlquileres(eCliente clientes[], int tamClientes, eAlquile
             if(clientes[i].isEmpty==1)
             {
                 cliente_mostrarUno(clientes[i]);
+                printf("\n\n");
                 for(int j=0; j<tamAlquileres;j++)
                 {
                     if(alquileres[j].isEmpty==1 && alquileres[j].idCliente==clientes[i].id)
                     {
                         alquiler_mostrarUno(alquileres[j]);
+                        printf("\n");
                     }
                 }
             }
