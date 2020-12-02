@@ -470,7 +470,7 @@ int informes_informar(eAlquiler alquileres[], int tamAlquileres, eCliente client
                 informe_equiposMasAlquilados(alquileres, tamAlquileres);
                 break;
             case 3:
-                printf("El tiempo promedio real del alquiler de equipos es %d\n\n", informe_promedioTiempoReal(alquileres, tamAlquileres));
+                printf("El tiempo promedio real del alquiler de equipos es %.2f\n\n", informe_promedioTiempoReal(alquileres, tamAlquileres));
                 break;
             case 4:
                 informe_clientesConAlquileres(clientes, tamClientes, alquileres, tamAlquileres);
@@ -581,9 +581,10 @@ int informe_equiposMasAlquilados(eAlquiler alquileres[], int tamAlquileres)
     return ok;
 }
 
-int informe_promedioTiempoReal(eAlquiler alquileres[], int tamAlquileres)
+float informe_promedioTiempoReal(eAlquiler alquileres[], int tamAlquileres)
 {
-    int i=0, totalTiempo=0, promedio, cont=0;
+    int i=0, totalTiempo=0, cont=0;
+    float promedio;
     if(alquileres!=NULL && tamAlquileres>0)
     {
         for(i=0; i<tamAlquileres; i++)

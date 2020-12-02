@@ -105,7 +105,7 @@ int informe_nombreCompletoMasAlquileres(eMasAlquileres masAlquileres[], eCliente
 
 int informe_equiposMasAlquilados(eAlquiler alquileres[], int tamAlquileres);
 
-int informe_promedioTiempoReal(eAlquiler alquileres[], int tamAlquileres);
+float informe_promedioTiempoReal(eAlquiler alquileres[], int tamAlquileres);
 
 int informe_clientesConAlquileres(eCliente clientes[], int tamClientes, eAlquiler alquileres[], int tamAlquileres);
 
