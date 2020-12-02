@@ -189,7 +189,7 @@ eCliente cliente_modificaciones(eCliente unCliente)
             confirma= getLetter("Confirma cambio de nombre?: ", "Error, intente de nuevo: ");
             if(confirma=='s')
             {
-                strcpy(unCliente.nombre, nombreAux);
+                strcpy(clienteAux.nombre, nombreAux);
                 printf("Cambio de nombre confirmado\n\n");
                 break;
             }
@@ -204,7 +204,7 @@ eCliente cliente_modificaciones(eCliente unCliente)
             confirma= getLetter("Confirma cambio de apellido?: ", "Error, intente de nuevo: ");
             if(confirma=='s')
             {
-                strcpy(unCliente.apellido, apellidoAux);
+                strcpy(clienteAux.apellido, apellidoAux);
                 printf("Cambio de apellido confirmado\n\n");
             }
             else
