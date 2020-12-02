@@ -44,7 +44,7 @@ char getLetter(char message[], char errorMessage[])
         fflush(stdin);
         scanf("%c", &letter);
     }
-    tolower(letter);
+    letter= tolower(letter);
     return letter;
 }
 
@@ -64,7 +64,7 @@ void getStrings(char message[], char errorMessage[], int len, char str[])
     strcpy(str, auxStr);
     //strupr(str);
     //strlwr(str);
-    /*str[0]= toupper(str[0]);
+    str[0]= toupper(str[0]);
 
     for(int i=0; i<strlen(str); i++)
     {
@@ -72,7 +72,7 @@ void getStrings(char message[], char errorMessage[], int len, char str[])
         {
             str[i+1] = toupper(str[i+1]);
         }
-    }*/
+    }
 }
 
 void firstUpper(char str[])
