@@ -1,0 +1,55 @@
+# depslib dependency file v1.0
+1606917168 source:d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\input.c
+	"input.h"
+
+1606604363 d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\input.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+
+1606917299 source:d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\menu.c
+	"menu.h"
+
+1606911388 d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\menu.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"input.h"
+
+1606918297 source:d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"menu.h"
+	"lib.h"
+	"datastore.h"
+
+1606912437 d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\cliente.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"input.h"
+
+1606912653 source:d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\cliente.c
+	"cliente.h"
+
+1606912270 source:d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\alquiler.c
+
+1606919536 d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\lib.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"menu.h"
+	"input.h"
+
+1606919525 source:d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\lib.c
+	"lib.h"
+
+1606916193 d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\datastore.h
+	"lib.h"
+
