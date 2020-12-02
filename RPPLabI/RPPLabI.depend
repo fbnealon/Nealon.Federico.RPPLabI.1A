@@ -18,7 +18,7 @@
 	<ctype.h>
 	"input.h"
 
-1606920211 source:d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\main.c
+1606930722 source:d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -39,7 +39,7 @@
 
 1606912270 source:d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\alquiler.c
 
-1606921192 d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\lib.h
+1606931158 d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\lib.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -47,9 +47,9 @@
 	"menu.h"
 	"input.h"
 
-1606921072 source:d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\lib.c
+1606931774 source:d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\lib.c
 	"lib.h"
 
-1606916193 d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\datastore.h
+1606931384 d:\federico\documents\progra i\nealon.federico.rpplabi.1a\rpplabi\datastore.h
 	"lib.h"
 

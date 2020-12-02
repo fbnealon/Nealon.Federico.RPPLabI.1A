@@ -49,7 +49,7 @@ int cliente_mostrarTodos(eCliente clientes[], int tamClientes)
     int flag=0;
     if(clientes!=NULL && tamClientes>0)
     {
-        printf(" ID       NOMBRE               APELLIDO               DNI\n\n");
+        printf(" ID                    NOMBRE                 APELLIDO          DNI\n\n");
         for(int i=0; i<tamClientes; i++)
         {
             if(clientes[i].isEmpty == 1)
@@ -264,6 +264,92 @@ int cliente_baja(eCliente clientes[], int tamClientes)
     return ok;
 }
 
+int cliente_cargarNombre(eCliente clientes[], int tamClientes, int id, char nombre[])
+{
+    int ok=0;
+    if(clientes!=NULL && tamClientes>0 && id>0)
+    {
+        for(int i=0; i<tamClientes; i++)
+        {
+            if(clientes[i].isEmpty==1 && clientes[i].id==id)
+            {
+                strcpy(nombre, clientes[i].nombre);
+            }
+        }
+        ok=1;
+    }
+    return ok;
+}
+
+int cliente_cargarApellido(eCliente clientes[], int tamClientes, int id, char apellido[])
+{
+    int ok=0;
+    if(clientes!=NULL && tamClientes>0 && id>0)
+    {
+        for(int i=0; i<tamClientes; i++)
+        {
+            if(clientes[i].isEmpty==1 && clientes[i].id==id)
+            {
+                strcpy(apellido, clientes[i].apellido);
+            }
+        }
+        ok=1;
+    }
+    return ok;
+}
+
+int cliente_cargarNombreCompleto(char nombre[], char apellido[], char completo[])
+{
+    int ok=0;
+    if(nombre!=NULL && apellido!=NULL)
+    {
+        strcpy(completo, nombre);
+        strcat(completo, " ");
+        strcat(completo, apellido);
+        ok=1;
+    }
+    return ok;
+}
+
+int equipo_mostrarTodos(eEquipo equipos[], int tamEquipos)
+{
+    int ok=0;
+    if(equipos!=NULL && tamEquipos>0)
+    {
+        printf("ID              EQUIPO\n\n");
+        for(int i=0; i<tamEquipos; i++)
+        {
+            equipo_mostrarUno(equipos[i]);
+        }
+        printf("\n");
+        ok=1;
+    }
+    return ok;
+}
+
+void equipo_mostrarUno(eEquipo unEquipo)
+{
+    printf("%2d %20s\n", unEquipo.id, unEquipo.descripcion);
+}
+
+int equipo_cargar(eEquipo equipos[], int tamEquipos, int id, char descripcion[])
+{
+    int ok=0;
+    if(equipos!=NULL && tamEquipos>0 && id>0)
+    {
+        for(int i=0; i<tamEquipos; i++)
+        {
+            if(equipos[i].id==id)
+            {
+                strcpy(descripcion, equipos[i].descripcion);
+            }
+        }
+        ok=1;
+    }
+    return ok;
+}
+
+
 int operador_mostrarTodos(eOperador operadores[], int tamOperadores)
 {
     int ok=0;
@@ -343,7 +429,23 @@ int alquiler_inicializar(eAlquiler alquileres[], int tamAlquileres)
     return ok;
 }
 
-int alquiler_nuevo(eAlquiler alquileres[], int tamAlquileres, eCliente clientes[], int tamClientes, eOperador operadores[], int tamOperadores)
+int alquiler_cargarEstado(eAlquiler unAlquiler, char estado[])
+{
+    int ok=0;
+    if(unAlquiler.estado == ALQUILADO)
+    {
+        strcpy(estado, "ALQUILADO");
+        ok=1;
+    }
+    if(unAlquiler.estado == FINALIZADO)
+    {
+        strcpy(estado, "FINALIZADO");
+        ok=1;
+    }
+return ok;
+}
+
+int alquiler_nuevo(eAlquiler alquileres[], int tamAlquileres, eCliente clientes[], int tamClientes, eOperador operadores[], int tamOperadores, int idAlquiler, eEquipo equipos[], int tamEquipos)
 {
     int ok=0;
     int index;
@@ -361,22 +463,26 @@ int alquiler_nuevo(eAlquiler alquileres[], int tamAlquileres, eCliente clientes[
         }
         else
         {
+            nuevoAlquiler.id=idAlquiler;
             nuevoAlquiler.estado=ALQUILADO;
             nuevoAlquiler.tiempoReal=0;
             nuevoAlquiler.isEmpty= 1;
 
             do
             {
-                nuevoAlquiler.equipo=getInt("1 Amoladora\n2 Mezcladora\n3 Taladro\nElija equipo a alquilar:\n\n", "ERROR, intente de nuevo: ", 1, 3);
-            }while (nuevoAlquiler.equipo<1 || nuevoAlquiler.equipo>3);
+                equipo_mostrarTodos(equipos, tamEquipos);
+                nuevoAlquiler.idEquipo=getInt("Elija equipo a alquilar:\n\n", "ERROR, intente de nuevo: ", 1, 3);
+            }
+            while (nuevoAlquiler.idEquipo<1 || nuevoAlquiler.idEquipo>3);
 
-                if(cliente_mostrarTodos(clientes, tamClientes)==1)
+            if(cliente_mostrarTodos(clientes, tamClientes)==1)
+            {
+                do
                 {
-                    do
-                    {
-                        nuevoAlquiler.idCliente= getInt("Ingrese el ID del cliente que alquilara el equipo: ", "ERROR, intente de nuevo: ", 1000, 1999);
-                    }while(cliente_buscar(clientes, tamClientes, nuevoAlquiler.idCliente)==-1);
+                    nuevoAlquiler.idCliente= getInt("Ingrese el ID del cliente que alquilara el equipo: ", "ERROR, intente de nuevo: ", 1000, 1999);
                 }
+                while(cliente_buscar(clientes, tamClientes, nuevoAlquiler.idCliente)==-1);
+            }
 
             nuevoAlquiler.tiempoEstimado= getInt("Ingrese el tiempo estimado de uso (1 a 50 hs): ", "ERROR, intente de nuevo: ", 1, 50);
             nuevoAlquiler.tiempoReal=0;
@@ -404,6 +510,7 @@ int alquiler_fin(eAlquiler alquileres[], int tamAlquileres, eCliente clientes[],
 {
     int ok=0;
     int index;
+    char confirma='n';
     if(alquileres!=NULL && tamAlquileres>0  && clientes!=NULL && tamClientes>0 && idAlquiler>0)
     {
         index= alquiler_buscar(alquileres, tamAlquileres, idAlquiler);
@@ -411,7 +518,11 @@ int alquiler_fin(eAlquiler alquileres[], int tamAlquileres, eCliente clientes[],
         if(index!=-1)
         {
             alquileres[index].tiempoReal= getInt("Ingrese el tiempo real de alquiler (1 a 50 hs): ", "ERROR, intente de nuevo: ", 1, 50);
-            alquileres[index].estado=FINALIZADO;
+            confirma=getLetter("Confirma fin de alquiler?: ", "ERROR, intente de nuevo: ");
+            if(confirma=='s')
+            {
+                alquileres[index].estado=FINALIZADO;
+            }
         }
         ok=1;
     }
@@ -419,18 +530,32 @@ int alquiler_fin(eAlquiler alquileres[], int tamAlquileres, eCliente clientes[],
     return ok;
 }
 
-int alquiler_mostrarTodos(eAlquiler alquileres[], int tamAlquileres)
+int alquiler_mostrarTodos(eAlquiler alquileres[], int tamAlquileres, eCliente clientes[], int tamClientes, eOperador operadores[], int tamOperadores, eEquipo equipos[], int tamEquipos)
 {
     int ok=0;
     int flag=0;
+    char nombreAux[20];
+    char apellidoAux[20];
+    char operadorAux[20];
+    char equipoAux[20];
+    char estado[20];
+    char completoAux[20];
     if(alquileres!=NULL && tamAlquileres>0)
     {
-        printf(" ID       ID CLIENTE               EQUIPO               TIEMPO ESTIMADO         TIEMPO REAL         ID OPERADOR         ESTADO\n\n");
+        printf(" ID                         CLIENTE          EQUIPO        TIEMPO     TIEMPO           OPERADOR     ESTADO\n");
+        printf("                                                          ESTIMADO     REAL\n\n");
         for(int i=0; i<tamAlquileres; i++)
         {
             if(alquileres[i].isEmpty == 1)
             {
-                alquiler_mostrarUno(alquileres[i]);
+                cliente_cargarNombre(clientes, tamClientes, alquileres[i].idCliente, nombreAux);
+                cliente_cargarApellido(clientes, tamClientes, alquileres[i].idCliente, apellidoAux);
+                cliente_cargarNombreCompleto(nombreAux, apellidoAux, completoAux);
+                operador_cargarApellido(operadores, tamOperadores, alquileres[i].idOperador, operadorAux);
+                equipo_cargar(equipos, tamEquipos, alquileres[i].idEquipo, equipoAux);
+                alquiler_cargarEstado(alquileres[i], estado);
+
+                printf("%4d %30s %15s %11d %10d %20s %10s\n", alquileres[i].id, completoAux, equipoAux, alquileres[i].tiempoEstimado, alquileres[i].tiempoReal, operadorAux, estado);
                 flag=1;
                 ok=1;
             }
@@ -446,12 +571,25 @@ int alquiler_mostrarTodos(eAlquiler alquileres[], int tamAlquileres)
     return ok;
 }
 
-void alquiler_mostrarUno(eAlquiler unAlquiler)
+void alquiler_mostrarUno(eAlquiler unAlquiler, eCliente clientes[], int tamClientes, eOperador operadores[], int tamOperadores, eEquipo equipos[], int tamEquipos)
 {
-    printf("%4d  %4d  %2d  %3d  %3d  %4d  %2d\n", unAlquiler.id, unAlquiler.idCliente, unAlquiler.equipo, unAlquiler.tiempoEstimado, unAlquiler.tiempoReal, unAlquiler.idOperador, unAlquiler.estado);
+    char nombreAux[20];
+    char apellidoAux[20];
+    char completoAux[40];
+    char operadorAux[20];
+    char equipoAux[20];
+    char estadoAux[20];
+
+    cliente_cargarNombre(clientes, tamClientes, unAlquiler.idCliente, nombreAux);
+    cliente_cargarApellido(clientes, tamClientes, unAlquiler.idCliente, apellidoAux);
+    cliente_cargarNombreCompleto(nombreAux, apellidoAux, completoAux);
+    operador_cargarApellido(operadores, tamOperadores, unAlquiler.idOperador, operadorAux);
+    equipo_cargar(equipos, tamEquipos, unAlquiler.idEquipo, equipoAux);
+    alquiler_cargarEstado(unAlquiler, estadoAux);
+    printf("%4d %30s %15s %11d %10d %20s %10s\n", unAlquiler.id, completoAux, equipoAux, unAlquiler.tiempoEstimado, unAlquiler.tiempoReal, operadorAux, estadoAux);
 }
 
-int informes_informar(eAlquiler alquileres[], int tamAlquileres, eCliente clientes[], int tamClientes, eOperador operadores[], int tamOperadores, eMasAlquileres masAlquileres[])
+int informes_informar(eAlquiler alquileres[], int tamAlquileres, eCliente clientes[], int tamClientes, eOperador operadores[], int tamOperadores, eMasAlquileres masAlquileres[], eEquipo equipos[], int tamEquipos)
 {
     int ok=0;
     char seguir='s';
@@ -467,13 +605,13 @@ int informes_informar(eAlquiler alquileres[], int tamAlquileres, eCliente client
                 informe_nombreCompletoMasAlquileres(masAlquileres, clientes, tamClientes);
                 break;
             case 2:
-                informe_equiposMasAlquilados(alquileres, tamAlquileres);
+                informe_equiposMasAlquilados(alquileres, tamAlquileres, equipos, tamEquipos);
                 break;
             case 3:
                 printf("El tiempo promedio real del alquiler de equipos es %.2f\n\n", informe_promedioTiempoReal(alquileres, tamAlquileres));
                 break;
             case 4:
-                informe_clientesConAlquileres(clientes, tamClientes, alquileres, tamAlquileres);
+                informe_clientesConAlquileres(clientes, tamClientes, alquileres, tamAlquileres, operadores, tamOperadores, equipos, tamEquipos);
                 break;
             case 5:
                 confirma = getLetter("Confirma salida?: ", "Caracter invalido, intente de nuevo: ");
@@ -485,31 +623,32 @@ int informes_informar(eAlquiler alquileres[], int tamAlquileres, eCliente client
             }
             system("pause");
             system("cls");
-        }while(seguir=='s');
+        }
+        while(seguir=='s');
         ok=1;
     }
     return ok;
 }
 
-int informe_cargarCantidadAlquileres(eAlquiler alquileres[], int tamAlquileres, eCliente clientes[], int tamClientes, eMasAlquileres masAlquileres[])
+int masAlquileres_cargarCantidadAlquileres(eAlquiler alquileres[], int tamAlquileres, eCliente clientes[], int tamClientes, eMasAlquileres masAlquileres[])
 {
     int ok=0;
-    int i=0;
+    int i=0, j=0;
     if(alquileres!=NULL && tamAlquileres>0 && clientes!=NULL && tamClientes>0)
     {
         for(i=0; i<tamClientes; i++)
         {
             masAlquileres[i].idCliente= clientes[i].id;
+            masAlquileres[i].isEmpty= clientes[i].isEmpty;
             masAlquileres[i].cantidadAlquileres=0;
-        }
-        for(i=0; i<tamAlquileres;i++)
-        {
-            if(masAlquileres[i].idCliente==alquileres[i].idCliente && alquileres[i].isEmpty==1)
+            for(j=0; j<tamAlquileres; j++)
             {
-                masAlquileres[i].cantidadAlquileres++;
+                if(alquileres[j].idCliente==masAlquileres[i].idCliente && masAlquileres[i].isEmpty==1 && alquileres[j].isEmpty==1)
+                {
+                    masAlquileres[i].cantidadAlquileres++;
+                }
             }
         }
-
         ok=1;
     }
 
@@ -520,6 +659,8 @@ int informe_cargarCantidadAlquileres(eAlquiler alquileres[], int tamAlquileres, 
 int informe_nombreCompletoMasAlquileres(eMasAlquileres masAlquileres[], eCliente clientes[], int tamClientes)
 {
     int ok=0, auxMayor=0, i=0, auxIndex;
+    char nombreAux[20];
+    char apellidoAux[20];
     if(masAlquileres!=NULL && clientes!=NULL && tamClientes>0)
     {
         printf("Los clientes con mas alquileres son: \n\n");
@@ -535,7 +676,9 @@ int informe_nombreCompletoMasAlquileres(eMasAlquileres masAlquileres[], eCliente
             if(auxMayor==masAlquileres[i].cantidadAlquileres)
             {
                 auxIndex=cliente_buscar(clientes, tamClientes, masAlquileres[i].idCliente);
-                cliente_mostrarUno(clientes[auxIndex]);
+                cliente_cargarNombre(clientes, tamClientes, clientes[auxIndex].id, nombreAux);
+                cliente_cargarApellido(clientes, tamClientes, clientes[auxIndex].id, apellidoAux);
+                printf("Cliente: %s %s\n\n", nombreAux, apellidoAux);
             }
         }
         printf("\n\n");
@@ -544,38 +687,47 @@ int informe_nombreCompletoMasAlquileres(eMasAlquileres masAlquileres[], eCliente
     return ok;
 }
 
-int informe_equiposMasAlquilados(eAlquiler alquileres[], int tamAlquileres)
+int informe_equiposMasAlquilados(eAlquiler alquileres[], int tamAlquileres, eEquipo equipos[], int tamEquipos)
 {
-    int i=0, ok=0, cantAmoladoras=0, cantMezcladoras=0, cantTaladros=0;
+    int i=0, ok=0, auxMax=-1;
+    int cantidades[3]= {0,0,0};
     if(alquileres!=NULL && tamAlquileres>0)
     {
         for(i=0; i<tamAlquileres; i++)
         {
-            if(alquileres[i].equipo==AMOLADORA && alquileres[i].isEmpty==1)
+            if(alquileres[i].isEmpty==1)
             {
-                cantAmoladoras++;
+                if(alquileres[i].idEquipo==AMOLADORA)
+                {
+                    cantidades[0]++;
+                }
+                if(alquileres[i].idEquipo==MEZCLADORA)
+                {
+                    cantidades[1]++;
+                }
+                if(alquileres[i].idEquipo==TALADRO)
+                {
+                    cantidades[2]++;
+                }
             }
-            else if(alquileres[i].equipo==MEZCLADORA && alquileres[i].isEmpty==1)
+        }
+        for(i=0; i<tamEquipos; i++)
+        {
+            if(cantidades[i]>auxMax)
             {
-                cantMezcladoras++;
+                auxMax=cantidades[i];
             }
-            else if(alquileres[i].equipo==TALADRO && alquileres[i].isEmpty==1)
+        }
+        printf("Equipos con mas alquileres: \n\n");
+        printf("ID               Equipo  Cantidad alquileres\n\n");
+        for(i=0; i<tamEquipos; i++)
+        {
+            if(cantidades[i]==auxMax)
             {
-                cantTaladros++;
+                printf("%2d %20s        %13d\n", equipos[i].id, equipos[i].descripcion, auxMax);
             }
         }
-        if(cantAmoladoras>cantMezcladoras && cantAmoladoras>cantMezcladoras)
-        {
-            printf("El equipo mas alquilado es la amoladora con %d alquileres\n\n", cantAmoladoras);
-        }
-        else if(cantMezcladoras>cantAmoladoras && cantMezcladoras>cantTaladros)
-        {
-            printf("El equipo mas alquilado es la mezcladora con %d alquileres\n\n", cantMezcladoras);
-        }
-        else if(cantTaladros>cantAmoladoras && cantTaladros>cantMezcladoras)
-        {
-            printf("El equipo mas alquilado es el taladro con %d alquileres\n\n", cantTaladros);
-        }
+        printf("\n");
         ok=1;
     }
     return ok;
@@ -595,29 +747,27 @@ float informe_promedioTiempoReal(eAlquiler alquileres[], int tamAlquileres)
                 cont++;
             }
         }
-        promedio= totalTiempo/cont;
+        promedio= (float)totalTiempo/cont;
     }
     return promedio;
 }
 
-int informe_clientesConAlquileres(eCliente clientes[], int tamClientes, eAlquiler alquileres[], int tamAlquileres)
+int informe_clientesConAlquileres(eCliente clientes[], int tamClientes, eAlquiler alquileres[], int tamAlquileres, eOperador operadores[], int tamOperadores, eEquipo equipos[], int tamEquipos)
 {
     int ok=0;
 
     if(clientes!=NULL && tamClientes>0 && alquileres!=NULL && tamAlquileres>0)
     {
-        for(int i=0;i<tamClientes;i++)
+        for(int i=0; i<tamClientes; i++)
         {
             if(clientes[i].isEmpty==1)
             {
-                cliente_mostrarUno(clientes[i]);
                 printf("\n\n");
-                for(int j=0; j<tamAlquileres;j++)
+                for(int j=0; j<tamAlquileres; j++)
                 {
                     if(alquileres[j].isEmpty==1 && alquileres[j].idCliente==clientes[i].id)
                     {
-                        alquiler_mostrarUno(alquileres[j]);
-                        printf("\n");
+                        alquiler_mostrarUno(alquileres[j], clientes, tamClientes, operadores, tamOperadores, equipos, tamEquipos);
                     }
                 }
             }
