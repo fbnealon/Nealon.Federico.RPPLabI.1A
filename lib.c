@@ -761,17 +761,20 @@ int informe_clienteConMasActivos(eMasActivos masActivos[], eCliente clientes[], 
     if(masActivos!=NULL && clientes!=NULL && tamClientes>0)
     {
         printf("Los clientes con mas prestamos activos son: \n\n");
-        if(auxMayor<masActivos[i].cantidadActivos)
+        for(i=0; i<tamClientes; i++)
         {
-            auxMayor=masActivos[i].cantidadActivos;
+            if(auxMayor<masActivos[i].cantidadActivos)
+            {
+                auxMayor=masActivos[i].cantidadActivos;
+            }
         }
-    }
-    for(i=0; i<tamClientes; i++)
-    {
-        if(auxMayor==masActivos[i].cantidadActivos)
+        for(i=0; i<tamClientes; i++)
         {
-            auxIndex=cliente_buscar(clientes, tamClientes, masActivos[i].idCliente);
-            cliente_mostrarUno(clientes[auxIndex], prestamos, tamPrestamos);
+            if(auxMayor==masActivos[i].cantidadActivos && masActivos[i].isEmpty==1)
+            {
+                auxIndex=cliente_buscar(clientes, tamClientes, masActivos[i].idCliente);
+                cliente_mostrarUno(clientes[auxIndex], prestamos, tamPrestamos);
+            }
         }
     }
     return ok;
@@ -787,14 +790,17 @@ int informe_clienteConMasSaldados(eMasSaldados masSaldados[], eCliente clientes[
     if(masSaldados!=NULL && clientes!=NULL && tamClientes>0)
     {
         printf("Los clientes con mas prestamos saldados son: \n\n");
-        if(auxMayor<masSaldados[i].cantidadSaldados)
+        for(i=0; i<tamClientes; i++)
         {
-            auxMayor=masSaldados[i].cantidadSaldados;
+            if(auxMayor<masSaldados[i].cantidadSaldados)
+            {
+                auxMayor=masSaldados[i].cantidadSaldados;
+            }
         }
     }
     for(i=0; i<tamClientes; i++)
     {
-        if(auxMayor==masSaldados[i].cantidadSaldados)
+        if(auxMayor==masSaldados[i].cantidadSaldados && masSaldados[i].isEmpty==1)
         {
             auxIndex=cliente_buscar(clientes, tamClientes, masSaldados[i].idCliente);
             cliente_mostrarUno(clientes[auxIndex], prestamos, tamPrestamos);
@@ -813,14 +819,17 @@ int informe_clienteConMasPrestamos(eMasPrestamos masPrestamos[], eCliente client
     if(masPrestamos!=NULL && clientes!=NULL && tamClientes>0)
     {
         printf("Los clientes con mas prestamos en total son: \n\n");
-        if(auxMayor<masPrestamos[i].cantidadDePrestamos)
+        for(i=0; i<tamClientes; i++)
         {
-            auxMayor=masPrestamos[i].cantidadDePrestamos;
+            if(auxMayor<masPrestamos[i].cantidadDePrestamos)
+            {
+                auxMayor=masPrestamos[i].cantidadDePrestamos;
+            }
         }
     }
     for(i=0; i<tamClientes; i++)
     {
-        if(auxMayor==masPrestamos[i].cantidadDePrestamos)
+        if(auxMayor==masPrestamos[i].cantidadDePrestamos && masPrestamos[i].isEmpty==1)
         {
             auxIndex=cliente_buscar(clientes, tamClientes, masPrestamos[i].idCliente);
             cliente_mostrarUno(clientes[auxIndex], prestamos, tamPrestamos);
