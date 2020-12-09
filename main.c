@@ -6,8 +6,8 @@
 #include "lib.h"
 #include "datastore.h"
 
-#define TAM_CLIENTES 5
-#define TAM_PRESTAMOS 10
+#define TAM_CLIENTES 50
+#define TAM_PRESTAMOS 50
 
 void cargarVectores(eCliente clientes[], int tamClientes, ePrestamo prestamos[], int tamPrestamos);
 
