@@ -758,8 +758,6 @@ int informe_clienteConMasActivos(eMasActivos masActivos[], eCliente clientes[], 
     int auxMayor=0;
     int i=0;
     int auxIndex;
-    char nombreAux[20];
-    char apellidoAux[20];
     if(masActivos!=NULL && clientes!=NULL && tamClientes>0)
     {
         printf("Los clientes con mas prestamos activos son: \n\n");
@@ -773,8 +771,6 @@ int informe_clienteConMasActivos(eMasActivos masActivos[], eCliente clientes[], 
         if(auxMayor==masActivos[i].cantidadActivos)
         {
             auxIndex=cliente_buscar(clientes, tamClientes, masActivos[i].idCliente);
-            cliente_cargarNombre(clientes, tamClientes, clientes[auxIndex].id, nombreAux);
-            cliente_cargarApellido(clientes, tamClientes, clientes[auxIndex].id, apellidoAux);
             cliente_mostrarUno(clientes[auxIndex], prestamos, tamPrestamos);
         }
     }
@@ -790,7 +786,7 @@ int informe_clienteConMasSaldados(eMasSaldados masSaldados[], eCliente clientes[
 
     if(masSaldados!=NULL && clientes!=NULL && tamClientes>0)
     {
-        printf("Los clientes con mas prestamos activos son: \n\n");
+        printf("Los clientes con mas prestamos saldados son: \n\n");
         if(auxMayor<masSaldados[i].cantidadSaldados)
         {
             auxMayor=masSaldados[i].cantidadSaldados;
@@ -816,7 +812,7 @@ int informe_clienteConMasPrestamos(eMasPrestamos masPrestamos[], eCliente client
 
     if(masPrestamos!=NULL && clientes!=NULL && tamClientes>0)
     {
-        printf("Los clientes con mas prestamos activos son: \n\n");
+        printf("Los clientes con mas prestamos en total son: \n\n");
         if(auxMayor<masPrestamos[i].cantidadDePrestamos)
         {
             auxMayor=masPrestamos[i].cantidadDePrestamos;
