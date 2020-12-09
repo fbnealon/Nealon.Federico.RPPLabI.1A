@@ -28,7 +28,7 @@ int informes_menu()
 
     printf("-----------------MENU INFORMES-----------------\n\n");
     printf("1 Cliente con mas prestamos activos\n");
-    printf("2 Clietne con mas prestamos saldados\n");
+    printf("2 Cliente con mas prestamos saldados\n");
     printf("3 Cliente con mas prestamos\n");
     printf("4 Salir al menu principal\n");
     opcion = getInt("Ingrese opcion: ", "Error, intente de nuevo: ", 1, 4);
